@@ -4,14 +4,19 @@
   box-sizing: border-box;
 }
 
+/* variaveis são importantes no css para que você possa reutilizar o codigo, e caso precise mudar algo, você muda apenas na variavel e não em todos os lugares que você usou ela */
+
 :root {
   font-size: 62.5%;
 
   --ff-epilogue: "Epilogue", sans-serif;
 
   --fs-body: 1.6rem;
+
+  /* O clamp serve para a acessibilidade do tamanho das coisas, poupando o uso de media queries  */
   --fs-heading: 4rem;
 
+  /* o hue envole diretamente na cor, utilizar da cor no modo hsl(a) é bom pela facilidade que tem de alterar as propriedades da */
   --hue: 20;
   --bg-primary: hsla(var(--hue), 22%, 20%, 1);
   --bg-secondary: hsla(var(--hue), 0%, 100%, 1);
@@ -35,15 +40,30 @@ body {
   margin: 0 auto;
 }
 
-img {
-  width: 100%;
-  height: auto;
-}
-
 header {
   font-family: var(--ff-epilogue);
   text-align: center;
   margin: 10rem 0 8rem;
+
+  /* para iniciar uma animação em uma propriedade é necessario iniciar o nome dela */
+  /* duração dela */
+  animation: topdown 700ms;
+
+  /* quanto tempo a animação demora pra acontecer */
+
+  /* animation-delay: 200ms; */
+
+  /* em que estado a animação ira acabar */
+
+  /* animation-fill-mode: ; */
+
+  /* quantas vezes a animação ira se repetir */
+
+  /* animation-iteration-count: ; */
+
+  /* estado inicial da animação  */
+
+  /* animation-play-state: ; */
 }
 
 header p {
@@ -66,43 +86,126 @@ main {
   gap: 3.2rem;
 }
 
+/* ao colocar o transition aqui ao invés do hover, faz com que ela seja iniciada e finalizada quando eu passar o mouse por cima, caso eu colocasse no card hover ela seria apenas ao passar o mouse em cima */
+
 .card {
   position: relative;
   font-family: var(--ff-epilogue);
+  transition: 200ms;
+
+  /* toda vez que usar delay em alguma animação para nao bugar, é recomendado utilizar o backwards ou forwards */
+  animation: downtop 700ms 500ms backwards;
 }
 
-/* aqui o object fit esta deixando a imagem cobrindo toda a caixa criada no card, fazendo com que a imagem fique menos embaçada */
+.card:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+  filter: brightness(1.3);
+}
+
+/* fit significa encaixar em algo */
+
+/* aqui o object fit esta deixando a imagem cobrindo toda a caixa criada no card, fazendo com que a imagem fique menos embaçada e mais nitida */
 
 .card img {
   height: 41.6rem;
   object-fit: cover;
   border-radius: 6px;
+  width: 100%;
+  filter: brightness(0.5);
 }
-
-/* width fit content siginifica que a largura dele está encaixando no conteudo */
 
 .card h2 {
   position: absolute;
   bottom: 5.2rem;
   left: 2.8rem;
-  font-size: var(--fs-heading);
+  font-size: 4rem;
   font-weight: 800;
   display: flex;
   flex-direction: column;
   gap: 2.8rem;
 }
 
+/* width fit content siginifica que a largura dele está encaixando no conteudo */
+
 .card h2 span {
   border-radius: 2rem;
   background: var(--bg-secondary);
   font-size: var(--fs-body);
-  color: var(--fc-secondary);
   font-weight: 400;
   color: var(--fc-secondary-dark);
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   padding: 0 1.6rem;
   height: 3.8rem;
   width: fit-content;
+}
+
+.card:nth-last-child(1) {
+  margin-bottom: 2rem;
+}
+
+/* tudo que eu colocar no css com o @ significa que é uma at rule */
+
+@keyframes topdown {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes downtop {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 700px) {
+  :root {
+    --fs-heading: 5.6rem;
+  }
+
+  #page {
+    width: 117rem;
+    padding: 0 5rem;
+  }
+
+  main {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 930px) {
+  main {
+    grid-template-areas:
+      "colA colB colB"
+      "colC colC colD";
+  }
+
+  main div:nth-child(1) {
+    grid-area: colA;
+  }
+
+  main div:nth-child(2) {
+    grid-area: colB;
+  }
+
+  main div:nth-child(3) {
+    grid-area: colC;
+  }
+
+  main div:nth-child(4) {
+    grid-area: colD;
+  }
 }
